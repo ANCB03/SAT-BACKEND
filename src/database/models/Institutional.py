@@ -176,6 +176,7 @@ class Institutional:
                 return response.reject(res["msg"])
         except:
             return response.reject("Hable con el administrador")
+
     def getProfits(self, code, risk):
         if not code or not code.isdigit() or len(code) != 7:
             return response.error("Se necesita un código de 7 caracteres", 400)
@@ -189,7 +190,7 @@ class Institutional:
             array.append(key["nombre"])
         aux = list(filter(lambda profit: profit["nombre"] in array, data))
         return response.success("todo ok", aux, "")
-
+    
     def adminProfits(self):
         code = request.args.get("code")
         risk = request.args.get("risk")
