@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from middleware.validate_token import token_required, validate_token
 from routes.institutonal_router import institutional_rest
@@ -58,6 +58,14 @@ def renew(current_user):
 @validate_token
 def validateUserAuth(current_user, role=None):
     return jwt.validateUserAuth(current_user, role)
+#test
+@app.route('/check-mongo')
+def check_mongo():
+    try:
+        config.mongo.db.command('ping')
+        return 'Conexión exitosa con MongoDB'
+    except Exception as e:
+        return f'Error de conexión con MongoDB: {str(e)}'
 
 @app.route("/")
 def ping():

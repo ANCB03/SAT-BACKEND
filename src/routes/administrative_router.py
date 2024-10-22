@@ -16,6 +16,7 @@ def login():
 @administrative_rest.route("/register", methods=["POST"])
 @token_required
 @required_params(AdministrativeSchema())
+# llevaba "_"
 def register(_):
     return instance.register()
   

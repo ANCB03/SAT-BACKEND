@@ -12,6 +12,7 @@ notification_rest = Blueprint("notification_rest", __name__)
 @notification_rest.route("/", methods=["POST"])
 @token_required
 @required_params(NotificationSchema())
+##tenia "_" el metodo
 def createNotification(_):
     return instance.sendNotification()
 

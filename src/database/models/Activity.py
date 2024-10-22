@@ -41,6 +41,7 @@ class Activity:
         if not code or not code.isdigit() or len(code) != 7:
             return response.error("Se necesita un código de 7 caracteres", 400)
         res = request_ufps().get(f"{environment.API_URL}/riesgo_0000000").json()
+        print(f"Respuesta de la API de riesgos: {res}")
         riskStudent = list(map(lambda risk : {'risk': risk['nombre'], 'riskLevel':convertLevelRisk(risk['puntaje'])} , res['riesgos']))
         globalActivity = list(mongo.db.activity.find({"risk": "global", "state": True}))
         globalActivity = list(map(lambda activity : {**activity, "counter": mongo.db.attendance.count_documents({"activity": activity["_id"]}), "asistance":mongo.db.attendance.count_documents({"activity": activity["_id"], "student":code}) > 0}, globalActivity))
