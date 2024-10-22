@@ -14,7 +14,7 @@ def createRole():
 
 @role_router.route("/")
 def listRoles():
-    return instance.listRoles()
+    return instance.listRoles();
 
 @role_router.route("/schedule", methods=["PUT"])
 @token_required
