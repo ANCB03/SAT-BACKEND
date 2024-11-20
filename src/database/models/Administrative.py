@@ -124,7 +124,8 @@ class Administrative:
         data = req.json()
         for i in data: 
             for  j in i["programas"]:            
-                if j == nameProgram:  
+                if j == nameProgram:
+                    print("Pasa")
                     return json.dumps(True)
         return json.dumps(False)
     

@@ -16,6 +16,7 @@ class Risk:
     
     def getStatisticsTotal(self):
         data = request.get_json()
+        print(data)
         if "global" in data:
             return self.calcultateTotalRiskProgram("facultad")     
         if "program" in data:
@@ -56,18 +57,28 @@ class Risk:
         
     def calcultateTotalRiskProgram(self, endpoint):
         risk = request.json["risk"]
+        print(risk)
         if risk:
             if risk == "ac 012":
-                return response.success("todo ok!", [], "")
+                #res = request_ufps().get(f"{environment.API_URL}/sistemas_2021_1")
+                res = request_ufps_token().get(f"{environment.API_UFPS}/student/courses/students/ac012")
+                students = res.json()
+                print(students)
+                return students
             else:
                 students = request_ufps().get(f"{environment.API_URL}/{risk}_{endpoint}").json()
             return response.success("todo ok!", students, "")
-        output = [ 
-                  {"type": "Leve", "total": 0}, 
-                  {"type": "Moderado", "total": 0}, 
-                  {"type": "Crítico", "total": 0}, 
-                  {"type": "AC 012", "total": 0}, 
-                 ]
+        try:
+            ac012_response = request_ufps_token().get(f"{environment.API_UFPS}/student/total_estudiantes/ac012")
+            ac012_total = ac012_response.json().get("data", {}).get("total", 0)
+        except Exception as e:
+            ac012_total = 0
+        output = [
+            {"type": "Leve", "total": 0},
+            {"type": "Moderado", "total": 0},
+            {"type": "Crítico", "total": 0},
+            {"type": "AC 012", "total": ac012_total},
+        ]
         return response.success("todo ok!", output, "")
         
     def coursesAc012(self, code):

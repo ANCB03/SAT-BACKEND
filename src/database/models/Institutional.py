@@ -33,24 +33,29 @@ class Institutional:
     def loginGoogle(self):
         correo = request.json["correo"]
         rol = request.json["rol"]
+        if rol == "boss":
+            rol = "student"
         endpoint = f"/{rol}/email/{correo}"
-        try: 
+        try:
             req = request_ufps().get(f"{environment.API_UFPS}/{endpoint}")
             data = req.json()
             print(data)
-            if data["ok"]: 
+            if data["ok"]:
                 data = data["data"]
                 rol = "estudiante" if rol == "student" else "docente"
                 if data["rol"] != rol:
                     return response.error(f"No tiene acceso como {rol}", 401)
                 code = data["codigo"]
-                filename = self.getPhoto(code) 
+                filename = self.getPhoto(code)
                 if filename:
                     path = os.path.join(environment.UPLOAD_FOLDER, filename)
                     path = f"{request.host_url}{path[1:]}"
                 else:
                     path = None
-                auxRole = "jefe" if correo == "judithdelpilarrt@ufps.edu.co" else data["rol"]
+                ##jefe_data = mongo.db.administrative.find_one({"correo": correo})
+                ##auxRole = "jefe" if jefe_data else data["rol"]
+                ##print(jefe_data)
+                auxRole = "jefe" if correo == "andresnorbertocabe@ufps.edu.co" else data["rol"]
                 user = {
                     **data,
                     "foto": path,
@@ -235,6 +240,7 @@ class Institutional:
             for student in students:
                 code = student["codigo"]
                 student["riesgo"] = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
+        print(students)
         return response.success("todo ok!", students, "")
 
     def getSemesters(self, code):
