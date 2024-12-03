@@ -55,7 +55,7 @@ class Institutional:
                 ##jefe_data = mongo.db.administrative.find_one({"correo": correo})
                 ##auxRole = "jefe" if jefe_data else data["rol"]
                 ##print(jefe_data)
-                auxRole = "jefe" if correo == "andresnorbertocabe@ufps.edu.co" else data["rol"]
+                auxRole = "jefe" if correo == "andresnorbertocabe1@ufps.edu.co" else data["rol"]
                 user = {
                     **data,
                     "foto": path,
@@ -201,6 +201,7 @@ class Institutional:
         risk = request.args.get("risk")
         req = request_ufps().get(f"{environment.API_URL}/beneficios_{code}")
         dataUFPS = list(req.json())
+        print(dataUFPS)
         profits = list(filter(lambda profit: not profit["fechaFinal"], dataUFPS))
         profits = list(map(lambda profit : profit["nombre"], profits))
         if len(profits) > 0:
@@ -235,8 +236,10 @@ class Institutional:
         year = split[0]
         semester = split[1]
         res = request_ufps().get(f"{environment.API_URL}/{program}_{year}_{semester}") 
-        students = res.json() 
-        if students:  
+        students = res.json()
+        print(students)
+        print("PASA STUDENTS")
+        if students:
             for student in students:
                 code = student["codigo"]
                 student["riesgo"] = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]

@@ -4,7 +4,7 @@ import jwt
 from util import environment, response
 
 def generateToken(payload, expireIn):
-    token = jwt.encode({'payload': payload, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=expireIn)}, environment.SECRET_JWT)  
+    token = jwt.encode({'payload': payload, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=expireIn)}, environment.SECRET_JWT)
     return token
 
 

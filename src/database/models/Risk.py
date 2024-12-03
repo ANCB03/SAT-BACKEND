@@ -16,7 +16,7 @@ class Risk:
     
     def getStatisticsTotal(self):
         data = request.get_json()
-        print(data)
+        ##print(data)
         if "global" in data:
             return self.calcultateTotalRiskProgram("facultad")     
         if "program" in data:
@@ -63,7 +63,7 @@ class Risk:
                 #res = request_ufps().get(f"{environment.API_URL}/sistemas_2021_1")
                 res = request_ufps_token().get(f"{environment.API_UFPS}/student/courses/students/ac012")
                 students = res.json()
-                print(students)
+                ##print(students)
                 return students
             else:
                 students = request_ufps().get(f"{environment.API_URL}/{risk}_{endpoint}").json()
