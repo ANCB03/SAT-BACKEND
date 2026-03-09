@@ -25,6 +25,17 @@ app.config["MONGO_URI"]= environment.MONGO_URL
 app.config['UPLOAD_FOLDER'] = environment.UPLOAD_FOLDER
 config.mongo.init_app(app)
 
+# Agregar estas líneas para debug:
+print(f"MONGO_URI configurado: {environment.MONGO_URL}")
+print(f"Mongo object: {config.mongo}")
+print(f"Mongo db: {config.mongo.db}")
+with app.app_context():
+    try:
+        collections = config.mongo.db.list_collection_names()
+        print(f"✅ Conexión exitosa a MongoDB. Colecciones: {collections}")
+    except Exception as e:
+        print(f"❌ Error conectando a MongoDB: {e}")
+
 CORS(app)
 
 # JWT

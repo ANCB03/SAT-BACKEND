@@ -1,0 +1,19 @@
+FROM python:3.9-slim-bullseye
+
+# Evita que Python genere archivos .pyc
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Instalamos gunicorn y flask
+RUN pip install --no-cache-dir flask gunicorn
+
+# Copiamos todo el contenido de la carpeta api-simulacion
+COPY . .
+
+# Exponemos el puerto de la simulación
+EXPOSE 8082
+
+# Ejecutamos. OJO: Cambia 'sim_api' por el nombre de tu archivo .py
+CMD ["gunicorn", "--bind", "0.0.0.0:8082", "--workers", "1", "sim_api:app"]

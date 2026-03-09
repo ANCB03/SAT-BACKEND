@@ -29,7 +29,7 @@ class Institutional:
                 return response.error("Revise los datos ingresados", 401)
         except:
             return response.error("Revise los datos ingresados", 401)
-        
+
     def loginGoogle(self):
         correo = request.json["correo"]
         rol = request.json["rol"]
@@ -55,7 +55,7 @@ class Institutional:
                 ##jefe_data = mongo.db.administrative.find_one({"correo": correo})
                 ##auxRole = "jefe" if jefe_data else data["rol"]
                 ##print(jefe_data)
-                auxRole = "jefe" if correo == "andresnorbertocabe@ufps.edu.co" else data["rol"]
+                auxRole = "jefe" if correo == "miguelangell@ufps.edu.co" else data["rol"]
                 user = {
                     **data,
                     "foto": path,

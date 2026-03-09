@@ -8,7 +8,8 @@ from util import response
 mongo = config.mongo
 
 class Role:
-    
+
+
     def createRole(self):
         data = request.get_json()
         schedule = data["schedule"]
